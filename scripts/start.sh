@@ -64,7 +64,7 @@ echo "root:$(openssl passwd -6 "$PASSWORD")" > /etc/nginx/.htpasswd
 echo "[+] htpasswd file generated"
 
 # ---- 3. 用户自定义 ----
-[ -f /data/custom.sh ] && source /data/custom.sh
+[ -f /data/custom.sh ] && source /data/custom.sh || echo "[!] custom.sh failed, continuing..."
 
 # ---- 4. 启动服务 ----
 export LANG=zh_CN.UTF-8
