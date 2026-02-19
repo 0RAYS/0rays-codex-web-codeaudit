@@ -17,7 +17,7 @@
 ## 环境概要
 
 - **系统:** Ubuntu 24.04 (amd64),root 权限
-- **运行时:** Python 3(已装 pycryptodome, gmpy2, sympy, requests, bs4),Node.js,OpenJDK 8,C/C++ 编译环境, semgrep
+- **运行时:** Python 3(已装 pycryptodome, gmpy2, sympy, requests, bs4),Node.js,OpenJDK 17 Headless,C/C++ 编译环境, semgrep
 - **Shell:** bash,tmux 会话 `audit`
 - **包管理源: ** npm → npmmirror,pip → 清华源
 - **代理:** 若启动时传入 `PROXY` 环境变量,则已配置 `$HTTP_PROXY` 等
