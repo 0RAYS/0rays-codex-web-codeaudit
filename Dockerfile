@@ -66,6 +66,7 @@ RUN ln -sfn /data/cc-switch/ /root/.cc-switch
 
 # 8. 手动构建完工具目录后复制进容器
 COPY tools/ /data/tools/
+COPY skills/ /data/skills/
 RUN chmod +x /data/tools/fscan/fscan \
              /data/tools/static-binaries/* \
              /data/tools/misc-bkcrack-*/bkcrack 2>/dev/null; true

@@ -31,6 +31,10 @@ name = "docker-env"
 base_url = "${OPENAI_BASE_URL}"
 env_key = "OPENAI_API_KEY"
 wire_api = "responses"
+
+[[skills.config]]
+path = "/data/skills/"
+enabled = true
 TOML
         echo "[+] Generated $CODEX_CFG"
     else
