@@ -51,7 +51,7 @@ RUN pip install --break-system-packages --no-cache-dir \
 
 # 7. 目录结构
 # 根据官方文档, /etc/codex/skills用来存储skills
-RUN mkdir -p /data/workspace /data/codex /data/tools /data/skills
+RUN mkdir -p /data/workspace /data/codex /data/tools /data/skills /etc/codex
 RUN ln -sfn /data/codex/ /root/.codex
 RUN ln -sfn /data/skills/ /etc/codex/skills
 
