@@ -23,7 +23,7 @@ if [ -n "${OPENAI_BASE_URL}" ]; then
     if [ ! -f "$CODEX_CFG" ]; then
         cat > "$CODEX_CFG" << TOML
 model_provider = "docker-env"
-model = "gpt-5.2"
+model = "gpt-5.4"
 model_reasoning_effort = "high"
 
 [model_providers.docker-env]
@@ -32,12 +32,11 @@ base_url = "${OPENAI_BASE_URL}"
 env_key = "OPENAI_API_KEY"
 wire_api = "responses"
 
-[[skills.config]]
-path = "/data/skills/"
-enabled = true
-
 [features]
 multi_agent = true
+
+[[skills.config]]
+enabled = true
 TOML
         echo "[+] Generated $CODEX_CFG"
     else

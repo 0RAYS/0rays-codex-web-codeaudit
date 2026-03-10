@@ -13,14 +13,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     vim \
     # 搜索 & 文本
     ripgrep fd-find tree jq bat less file \
-    # 编译
-    build-essential cmake pkg-config \
     # 网络
-    net-tools iputils-ping dnsutils netcat-openbsd nmap socat dirsearch sqlmap nikto whatweb \
+    net-tools netcat-openbsd socat \
     # 压缩
     unzip p7zip-full xz-utils bzip2 tar zip \
-    # 二进制分析
-    binutils strace ltrace \
     # Python
     python3 python3-pip \
     # Java
@@ -34,10 +30,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # 3. 基础环境
 ADD https://github.com/krallin/tini/releases/download/v0.19.0/tini-amd64 /usr/bin/tini
 ADD https://github.com/filebrowser/filebrowser/releases/latest/download/linux-amd64-filebrowser.tar.gz /tmp/fb.tar.gz
-ADD https://github.com/SaladDay/cc-switch-cli/releases/download/v4.7.0/cc-switch-cli-linux-x64-musl.tar.gz /tmp/ccs.tar.gz
 RUN tar -xzf /tmp/fb.tar.gz -C /usr/bin filebrowser && rm /tmp/fb.tar.gz
-RUN tar -xzf /tmp/ccs.tar.gz -C /usr/bin cc-switch && rm /tmp/ccs.tar.gz
-RUN chmod +x /usr/bin/ttyd /usr/bin/tini /usr/bin/cc-switch /usr/bin/filebrowser
+RUN chmod +x /usr/bin/ttyd /usr/bin/tini /usr/bin/filebrowser
 
 RUN locale-gen zh_CN.UTF-8 && update-locale LANG=zh_CN.UTF-8
 
@@ -52,24 +46,18 @@ RUN npm i -g @openai/codex@latest
 
 # 6. Python 常用库
 RUN pip install --break-system-packages --no-cache-dir \
-    pycryptodome \
-    gmpy2 \
-    sympy \
     requests \
-    beautifulsoup4 \
-    semgrep
+    beautifulsoup4
 
 # 7. 目录结构
-RUN mkdir -p /data/workspace /data/codex /data/tools /data/cc-switch
+# 根据官方文档, /etc/codex/skills用来存储skills
+RUN mkdir -p /data/workspace /data/codex /data/tools /data/skills
 RUN ln -sfn /data/codex/ /root/.codex
-RUN ln -sfn /data/cc-switch/ /root/.cc-switch
+RUN ln -sfn /data/skills/ /etc/codex/skills
 
 # 8. 手动构建完工具目录后复制进容器
 COPY tools/ /data/tools/
 COPY skills/ /data/skills/
-RUN chmod +x /data/tools/fscan/fscan \
-             /data/tools/static-binaries/* \
-             /data/tools/misc-bkcrack-*/bkcrack 2>/dev/null; true
 
 # 9. SSH 配置
 RUN mkdir -p /run/sshd && \

@@ -1,14 +1,13 @@
-# 0RAYS Codex Client
+# 0RAYS codex web codeaudit
 
 基于 [Codex](https://github.com/openai/codex) 的代码审计 / CTF 工作站 Docker 镜像
 
-这是一个**基础镜像**，预装了通用安全工具和运行环境。各方向（Pwn / Crypto / Web 等）可以基于此镜像自行构建专属环境。
+这是一个专用镜像, 目前打算给代码审计使用, 直接把源码通过filebrowser传上去以后, 启动codex, 描述项目结构等, 达到开箱即用的目的
 
 ## 快速开始
 
 ```bash
 docker run -d \
-  --name codex-audit \
   -p 8981:8981 \
   -p 8982:8982 \
   -e OPENAI_API_KEY="sk-xxx" \
@@ -29,9 +28,7 @@ docker run -d \
 
 默认密码通过 `PASSWORD` 环境变量设置，未设置时为 `0raysnb`。
 
-## 环境变量
-
-环境中预装了tui版的cc-switch, 并且持久化到/data目录下, 也不一定需要使用环境变量传递APIKEY. 
+## 环境变量 
 
 如果通过docker启动时的环境变量传递, 且同时设置了`OPENAI_API_KEY`和`OPENAI_BASE_URL`, 则会自动填充到codex的config.toml, 具体逻辑可以参考 `scripts/start.sh`
 
@@ -49,7 +46,6 @@ docker run -d \
 ├── workspace/          # 主工作目录
 ├── tools/              # 预置安全工具
 ├── codex/              # Codex 配置持久化
-├── cc-switch/          # cc-switch 配置持久化
 └── custom.sh           # 用户自定义启动脚本（自动 source）
 ```
 
@@ -60,20 +56,3 @@ docker run -d \
 - OpenJDK 8
 - C/C++ 编译环境（build-essential, cmake）
 - 包管理源已配置国内镜像（npm → npmmirror, pip → 清华源）
-
-## 自定义扩展
-
-基于此镜像构建专属环境：
-
-```dockerfile
-FROM christarcher/0rays-codex-client:latest
-
-RUN apt-get update && apt-get install -y gdb gdbserver
-RUN pip install --break-system-packages pwntools ropper
-
-COPY pwndbg/ /data/tools/
-```
-
-为控制镜像体积，不要预装过大的工具，按需现场安装
-
-注意动调需要给docker**加上特权**
